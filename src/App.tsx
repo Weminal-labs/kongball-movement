@@ -1,30 +1,39 @@
-import { useState } from "react";
-import { AptosConnectButton, useAptosWallet } from "@razorlabs/wallet-kit";
-import "@razorlabs/wallet-kit/style.css";
+// import React from 'react';
 import "./App.css";
-import Minting from "./components/Mint";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+
+import Layout from "./pages/layout/Layout";
+import CreateRoom from "./pages/main/CreateRoom";
+import Leaderboard from "./pages/main/Leaderboard";
+import { LoginPage } from "./pages/main/Login/Login";
+import { CallbackPage } from "./pages/layout/Callback";
+import AuthLayout from "./pages/layout/AuthLayout";
+import RequireAuth from "./components/layout/RequireAuth";
+import Home from "./pages/main/home/Home";
+import PlayGame from "./pages/main/PlayGame/PlayGamePage";
+import Faucet from "./pages/main/Faucet";
+import CreateAccount from "./components/layout/CreateAccout/CreateAccount";
 
 function App() {
-  const [message, setMessage] = useState<string>("");
-  const { connected } = useAptosWallet();
-
-
   return (
-    <>
-      <h1>Razor Wallet Movement Labs Demo</h1>
-      <div className="card">
-        <AptosConnectButton />
-      </div>
-      {connected ? (
-        <>
-          <Minting setMessage={setMessage} />
-          <div>{message}</div>
-        </>
-      ) : null}
-      <a href="" className="read-the-docs">
-        Click here to learn more about
-      </a>
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route element={<RequireAuth />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/create-room" element={<CreateRoom />} />
+            <Route path="/playGame" element={<PlayGame />} />
+            <Route path="/leaderboard" element={<Leaderboard />} />
+            <Route path="/faucet" element={<Faucet />} />
+            <Route path="/create-account" element={<CreateAccount />} />
+          </Route>
+        </Route>
+        <Route path="/auth" element={<AuthLayout />}>
+          <Route path="login" element={<LoginPage />} />
+        </Route>
+        <Route path="callback" element={<CallbackPage />} />
+      </Routes>
+    </Router>
   );
 }
 

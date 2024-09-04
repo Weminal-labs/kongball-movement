@@ -1,62 +1,30 @@
-# Razor Wallet Kit Example
+# React + TypeScript + Vite
 
-Welcome to the **Razor Wallet Kit Example**! This example demonstrates a React application built with Vite that integrates the Razor Wallet Kit to connect to the Movement Suzuka testnet.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Overview
+Currently, two official plugins are available:
 
-The Razor Wallet Kit Example provides a simple and intuitive way to connect and interact with the Movement Suzuka testnet using the Razor Wallet Kit components. It includes basic functionality for connecting a wallet, reading data from a smart contract, and submitting transactions.
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Getting Started
+## Expanding the ESLint configuration
 
-### Prerequisites
+If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
-Before running the project, ensure you have [Node.js](https://nodejs.org/) and npm (or yarn) installed on your machine.
+- Configure the top-level `parserOptions` property like this:
 
-### Installation
+```js
+export default {
+  // other rules...
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+    project: ['./tsconfig.json', './tsconfig.node.json'],
+    tsconfigRootDir: __dirname,
+  },
+}
+```
 
-1. **Clone the Repository**:
-   ```bash
-   git clone https://github.com/MovementLabs/Razor_Wallet_Kit_Example.git
-   cd Razor_Wallet_Kit_Example
-   ```
-
-2. **Install Dependencies**:
-   Install the necessary packages using npm or yarn.
-   ```bash
-   npm install
-   ```
-
-3. **Run the Application**:
-   Start the development server.
-   ```bash
-   npm run dev
-   ```
-   or
-   ```bash
-   yarn dev
-   ```
-
-## Implementation Details
-
-### Components
-
-- [**main.tsx**](./src/main.tsx): This file includes the `AptosWalletProvider` components, setting up the context for wallet interactions.
-[- **App.tsx**](./src/App.tsx): This file includes the `AptosConnectButton` component, allowing users to connect their wallets to the application.
-
-### Custom Components
-
-- [**MessageDisplay.tsx**](./src/components//MessageDisplay.tsx): This component uses the Aptos TypeScript SDK to read a message from a smart contract.
-- [**MessageCreate.tsx**](./src/components/MesageCreate.tsx): This component utilizes the `useAptosWallet` hook to sign and submit a transaction.
-
-### Styling
-
-Custom CSS has been added to the [`App.css`](./src/App.css) file in the `src` directory to match the styling of the buttons to the default styling of the Vite app.
-
-## Workshop Reference
-
-The module used in this implementation is based on a Move 0-1 workshop, which provides an in-depth tutorial on getting started with Move and the Aptos ecosystem. You can view the workshop here: [Move 0-1 Workshop](https://www.youtube.com/watch?v=gXPOvOjr9lM).
-
-
----
-
-Thank you for checking out the Razor Wallet Kit Example! We hope this example helps you get started with building on the Movement Suzuka testnet. Happy coding!
+- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
+- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
+- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list

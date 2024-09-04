@@ -1,83 +1,48 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Nord';
+  src: url('/font/TTF/Nord-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-.message-create-container {
-  max-width: 300px;
-  margin: 0 auto;
-}
-
-.message-form {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 10px;
-}
-
-.message-label {
-  font-size: 16px;
+@font-face {
+  font-family: 'Nord';
+  src: url('/font/TTF/Nord-Bold.ttf') format('truetype');
   font-weight: bold;
-  margin-bottom: 5px;
+  font-style: normal;
 }
 
-.message-input {
+@font-face {
+  font-family: 'Nord';
+  src: url('/font/TTF/Nord-Italic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+}
+
+
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
   width: 100%;
-  padding: 8px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+    cursor: url('cursor2.png'), auto;
+    font-family: 'Nord', sans-serif;
+
 }
 
-.submit-button {
-  padding: 10px 20px;
-  font-size: 14px;
-  border: none;
-  border-radius: 4px;
-  background-color: #007bff;
-  color: white;
-  cursor: pointer;
-  margin-bottom: 20px;
-}
-
-.submit-button:hover {
-  background-color: #0056b3;
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+#root {
+  height: 100%;
+  width: 100%;
+  background-color: black;
+  background-image: url('/background.png');
+  background-size: cover; /* This will make the background cover the entire area */
+  background-position: center; /* This centers the background image */
 }
