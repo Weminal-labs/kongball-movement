@@ -32,7 +32,7 @@ import {
   JoinRoomContainer,
 } from "./PlayGame.style";
 import { MODULE_ADDRESS } from "../../../utils/Var";
-import { useAptimusFlow } from "aptimus-sdk-test/react";
+import { useAptimusFlow } from "aptimus/react";
 import { Compare } from "../../../utils/CompareAddress";
 import useContract from "../../../hooks/useContract";
 import CustomButton from "../../../components/buttons/CustomButton";

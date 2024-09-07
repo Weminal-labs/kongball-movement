@@ -28,8 +28,8 @@ import MessengerContainer from "../chat/MessengerContainer";
 import { ChatOutlined, VolumeDown } from "@mui/icons-material";
 import "../../App.css";
 import { useUnityGame } from "../../hooks/useUnityGame";
-import { useAptimusFlow } from "aptimus-sdk-test/react";
-import { AptimusNetwork } from "aptimus-sdk-test";
+import { useAptimusFlow } from "aptimus/react";
+import { AptimusNetwork } from "aptimus";
 import useGetPlayer from "../../hooks/useGetPlayer";
 import useContract from "../../hooks/useContract";
 import { useAlert } from "../../contexts/AlertProvider";
@@ -48,6 +48,7 @@ interface Player {
 }
 
 const WaitingRoom = ({ open, room, closeRoom, isCreator, openGame }: Pros) => {
+  const selectedNetwork = AptimusNetwork.M1;
   const { setAlert } = useAlert();
   const [openDialog, setOpenDialog] = useState(false);
   const [player2, setPlayer2] = useState<Player | null>(null);

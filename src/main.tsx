@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
-import { AptimusFlowProvider } from "aptimus-sdk-test/react";
+import { AptimusFlowProvider } from "aptimus/react";
 import { AuthProvider } from "./contexts/AuthProvider.tsx";
 import { UnityGameProvider } from "./contexts/UnityGameProvider.tsx";
 import { AlertProvider } from "./contexts/AlertProvider.tsx";

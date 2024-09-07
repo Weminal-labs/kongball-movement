@@ -1,8 +1,8 @@
 import { Aptos, AptosConfig, Network } from "@aptos-labs/ts-sdk";
 import { useState } from "react";
 import { MODULE_ADDRESS } from "../utils/Var";
-import { useAptimusFlow } from "aptimus-sdk-test/react";
-import { AptimusNetwork } from "aptimus-sdk-test";
+import { useAptimusFlow } from "aptimus/react";
+import { AptimusNetwork } from "aptimus";
 
 
 interface useContractProps {
@@ -48,7 +48,7 @@ const useContract = () => {
       const committedTransaction = await flow.executeTransaction({
         aptos,
         transaction,
-        network: AptimusNetwork.TESTNET,
+        network: AptimusNetwork.M1,
       });
 
       if (onSuccess) {

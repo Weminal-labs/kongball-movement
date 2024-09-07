@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { AttachMoney } from "@mui/icons-material";
-import { useAptimusFlow } from "aptimus-sdk-test/react";
+import { useAptimusFlow } from "aptimus/react";
 import { Aptos, AptosConfig, InputViewFunctionData, Network } from "@aptos-labs/ts-sdk";
 import useAuth from "../../../hooks/useAuth";
 import { Menu, MenuItem, Modal, Box, TextField, Button, Avatar, Tooltip, Typography } from "@mui/material";

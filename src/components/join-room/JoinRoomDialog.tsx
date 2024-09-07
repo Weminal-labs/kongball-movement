@@ -1,6 +1,6 @@
 import { Box, Button, Modal, TextField, Typography } from "@mui/material";
 import { CreateRoomType, RoomType } from "../../type/type";
-import { useAptimusFlow, useKeylessLogin } from "aptimus-sdk-test/react";
+import { useAptimusFlow, useKeylessLogin } from "aptimus/react";
 import useContract from "../../hooks/useContract";
 import { useAlert } from "../../contexts/AlertProvider";
 import styled from "styled-components";

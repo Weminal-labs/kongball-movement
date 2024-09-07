@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Navigate, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { useAptimusFlow, useKeylessLogin } from 'aptimus-sdk-test/react';
+import { useAptimusFlow, useKeylessLogin } from 'aptimus/react';
 import useAuth from '../../hooks/useAuth';
 import { PlayerInfo, User } from '../../type/type';
 import { jwtDecode} from 'jwt-decode';
