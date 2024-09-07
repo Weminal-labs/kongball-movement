@@ -1,6 +1,7 @@
 import React from "react";
 import { useAptimusFlow } from "aptimus/react";
 import { FcGoogle } from "react-icons/fc";
+import { AptimusNetwork } from "aptimus";
 
 export const LoginPage = () => {
   const flow = useAptimusFlow();
@@ -12,6 +13,7 @@ export const LoginPage = () => {
       clientId:
         "556302451277-tipnsth9rm9grmkpige3pus8kske73pc.apps.googleusercontent.com",
       redirectUrl: `${window.location.origin}/callback`,
+      network: AptimusNetwork.TESTNET, // Thêm thuộc tính network
     });
     window.location.href = url.toString();
   };
