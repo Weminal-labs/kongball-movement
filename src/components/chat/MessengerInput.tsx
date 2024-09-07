@@ -1,8 +1,8 @@
 import { Aptos, AptosConfig, Network } from '@aptos-labs/ts-sdk';
 import React, { useState } from 'react'
 import { MODULE_ADDRESS } from '../../utils/Var';
-import { AptimusNetwork } from 'aptimus-sdk-test';
-import { useAptimusFlow } from 'aptimus-sdk-test/react';
+import { AptimusNetwork } from 'aptimus';
+import { useAptimusFlow } from 'aptimus/react';
 import { BsSend } from 'react-icons/bs';
 import useContract from '../../hooks/useContract';
 import { useAlert } from '../../contexts/AlertProvider';
@@ -15,6 +15,7 @@ const MessengerInput = ({roomId}:Pros) => {
     const [loading, setLoading] = useState();
     const address = localStorage.getItem("address")
     const { callContract, error } = useContract();
+	const selectedNetwork = AptimusNetwork.M1;
   const{setAlert} =useAlert()
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();

@@ -1,13 +1,13 @@
 import { Box, Modal } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useAptimusFlow, useKeylessLogin } from "aptimus-sdk-test/react";
+import { useAptimusFlow, useKeylessLogin } from "aptimus/react";
 import {
   Aptos,
   AptosConfig,
   InputViewFunctionData,
   Network,
 } from "@aptos-labs/ts-sdk";
-import { AptimusNetwork } from "aptimus-sdk-test";
+import { AptimusNetwork } from "aptimus";
 import { MODULE_ADDRESS } from "../../utils/Var";
 import { CreateRoomType, RoomType } from "../../type/type";
 import LoadingScreen from "../../components/layout/LoadingScreen";
@@ -107,7 +107,7 @@ const CreateRoom: React.FC = () => {
       const committedTransaction = await flow.executeTransaction({
         aptos,
         transaction,
-        network: AptimusNetwork.TESTNET,
+        network: AptimusNetwork.M1,
       });
       // @ts-ignore
       const createRoomObj: CreateRoomType = committedTransaction.events[1].data;
