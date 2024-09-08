@@ -13,7 +13,7 @@ export const LoginPage = () => {
       clientId:
         "556302451277-tipnsth9rm9grmkpige3pus8kske73pc.apps.googleusercontent.com",
       redirectUrl: `${window.location.origin}/callback`,
-      network: AptimusNetwork.TESTNET, // Thêm thuộc tính network
+      network: AptimusNetwork.M1, 
     });
     window.location.href = url.toString();
   };
