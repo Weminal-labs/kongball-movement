@@ -3,7 +3,6 @@ import { useState } from "react";
 import { MODULE_ADDRESS } from "../utils/Var";
 import { useAptimusFlow } from "aptimus-sdk-test/react";
 import { AptimusNetwork } from "aptimus-sdk-test";
-import { useWallet } from "@aptos-labs/wallet-adapter-react";
 
 import { AptosConnectButton, useAptosWallet } from "@razorlabs/wallet-kit";
 

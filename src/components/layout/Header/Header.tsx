@@ -41,7 +41,6 @@ import { MODULE_ADDRESS } from "../../../utils/Var";
 import { PlayerInfo } from "../../../type/type";
 import useGetPlayer from "../../../hooks/useGetPlayer";
 import useContract from "../../../hooks/useContract";
-import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { useAptosWallet } from "@razorlabs/wallet-kit";
 
 interface CoinStoreResource {

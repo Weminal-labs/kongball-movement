@@ -1,6 +1,6 @@
-import { AptosWalletAdapterProvider } from "@aptos-labs/wallet-adapter-react";
+// import { AptosWalletAdapterProvider } from "@aptos-labs/wallet-adapter-react";
 import { PropsWithChildren } from "react";
-import { BitgetWallet } from "@bitget-wallet/aptos-wallet-adapter";
+// import { BitgetWallet } from "@bitget-wallet/aptos-wallet-adapter";
 // import { MartianWallet } from "@martianwallet/aptos-wallet-adapter";
 // import { FewchaWallet } from "fewcha-plugin-wallet-adapter";
 
@@ -11,7 +11,7 @@ export const WalletProvider = ({ children }: PropsWithChildren) => {
     // const { toast } = useToast();
   
     const wallets = [
-      new BitgetWallet(),
+      // new BitgetWallet(),
     //   new MartianWallet(),
     //   new FewchaWallet(),
 
@@ -22,17 +22,17 @@ export const WalletProvider = ({ children }: PropsWithChildren) => {
     ];
   
     return (
-      <AptosWalletAdapterProvider
-        plugins={wallets}
-        autoConnect={true}
-        dappConfig={{
-          network: Network.TESTNET,
+      // <AptosWalletAdapterProvider
+      //   plugins={wallets}
+      //   autoConnect={true}
+      //   dappConfig={{
+      //     network: Network.TESTNET,
         //   aptosConnectDappId: "57fa42a9-29c6-4f1e-939c-4eefa36d9ff5",
         //   mizuwallet: {
         //     manifestURL:
         //       "https://assets.mz.xyz/static/config/mizuwallet-connect-manifest.json",
         //   },
-        }}
+        // }}
         // onError={(error) => {
         //   toast({
         //     variant: "destructive",
@@ -40,8 +40,9 @@ export const WalletProvider = ({ children }: PropsWithChildren) => {
         //     description: error || "Unknown wallet error",
         //   });
         // }}
-      >
-        {children}
-      </AptosWalletAdapterProvider>
+      // >
+      //   {children}
+      // </AptosWalletAdapterProvider>
+      <></>
     );
   };

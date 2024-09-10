@@ -10,7 +10,6 @@ import {
   Network,
 } from "@aptos-labs/ts-sdk";
 import { MODULE_ADDRESS } from "../../utils/Var";
-import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { AptosConnectButton, useAptosWallet } from "@razorlabs/wallet-kit";
 
 const RequireAuth = () => {

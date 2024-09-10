@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import { useAptimusFlow } from "aptimus-sdk-test/react";
 import { FcGoogle } from "react-icons/fc";
-import { WalletSelector as AntdWalletSelector } from "@aptos-labs/wallet-adapter-ant-design";
-import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { useNavigate } from "react-router-dom";
 import { AptosConnectButton, useAptosWallet } from "@razorlabs/wallet-kit";
 import "@razorlabs/wallet-kit/style.css";
