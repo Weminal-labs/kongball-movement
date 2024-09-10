@@ -19,6 +19,7 @@ import {
 import { MODULE_ADDRESS } from "../utils/Var";
 import { Compare } from "../utils/CompareAddress";
 import { useAlert } from "./AlertProvider";
+import { AptosConnectButton, useAptosWallet } from "@razorlabs/wallet-kit";
 
 // Create UnityGame context
 const UnityGameContext = createContext<any>(null);
@@ -47,27 +48,24 @@ export const UnityGameProvider: React.FC<GameProviderProps> = ({
     codeUrl: "build/Build/Build.wasm",
   });
   const { setAlert } = useAlert();
-
+  const {signAndSubmitTransaction }=useAptosWallet()
   const [show, setShow] = useState(false);
   const handleUnload = async () => {
     await unload();
   };
 
   const pickWinnerByRoomId = async (roomId: number, winner: string) => {
-    const aptosConfig = new AptosConfig({ 
+    const aptosConfig = new AptosConfig({
       network: Network.TESTNET,
-      fullnode: 'https://faucet.testnet.suzuka.movementlabs.xyz/v1',
-      faucet: 'https://faucet.testnet.suzuka.movementlabs.xyz/',
-    });
-    const aptos = new Aptos(aptosConfig);
-
+      fullnode: "https://aptos.testnet.suzuka.movementlabs.xyz/v1",
+      faucet: "https://faucet.testnet.suzuka.movementlabs.xyz/",
+    });    const aptos = new Aptos(aptosConfig);
     const privateKey = new Ed25519PrivateKey(
-      "0x2099bc34580870f73e17a8b0676107f723dae26c594520ec82767928114fbed2",
+      import.meta.env.VITE_SECRET_KEY,
     );
 
     const account = await Account.fromPrivateKey({ privateKey });
 
-    // Get the account address
     const accountAddress = account.accountAddress.toString();
 
     console.log("Account Address:", accountAddress);
@@ -79,8 +77,8 @@ export const UnityGameProvider: React.FC<GameProviderProps> = ({
         data: {
           function: FUNCTION_NAME,
           functionArguments: [
-            roomId,
-            winner, 
+            roomId.toString(),
+            winner.toString(), 
           ],
         },
       });
@@ -96,18 +94,27 @@ export const UnityGameProvider: React.FC<GameProviderProps> = ({
         transactionHash: pendingTransaction.hash,
       });
 
-      // Log the executed transaction
       console.log("Executed Transaction:", executedTransaction);
+      // const response = await signAndSubmitTransaction({
+        
+      //   payload: {
+        
+      //     function: FUNCTION_NAME,
+      //     functionArguments: [roomId,winner, ],
+      //     typeArguments: [],
+          
+      //   }
+      // });
       const alertContent = 
         <>
           Transaction:{" "}
-          <a
-            href={`https://explorer.movementlabs.xyz/txn/${executedTransaction.hash}?network=testnet`}
+          {/* <a
+            href={`https://explorer.aptoslabs.com/txn/${executedTransaction.hash}?network=testnet`}
             target="_blank"
             rel="noopener noreferrer"
           >
             {executedTransaction.hash}
-          </a>
+          </a> */}
         </>
     
       

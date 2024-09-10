@@ -12,16 +12,16 @@ const useGetPlayer = () => {
     try {
       setLoadingFetch(true);
 
-      const aptosConfig = new AptosConfig({ 
+      const aptosConfig = new AptosConfig({
         network: Network.TESTNET,
-        fullnode: 'https://faucet.testnet.suzuka.movementlabs.xyz/v1',
+        fullnode: 'https://aptos.testnet.suzuka.movementlabs.xyz/v1',
         faucet: 'https://faucet.testnet.suzuka.movementlabs.xyz/',
-      });
-      const aptos = new Aptos(aptosConfig);
+        });        
+        const aptos = new Aptos(aptosConfig);
       
       const payload: InputViewFunctionData = {
         function: `${MODULE_ADDRESS}::gamev3::get_player_info`,
-        functionArguments: [address],
+        functionArguments: ["0xda4d1dbd2e34b038a2cc0fa6c1af9a1a70d8ad1b304030de4bb6f46d8edd8861"],
       };
 
       const response = await aptos.view({ payload });

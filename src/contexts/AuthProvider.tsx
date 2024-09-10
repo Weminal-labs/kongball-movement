@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useState } from "react";
 import { User } from "../type/type";
-import { useAptimusFlow } from "aptimus/react";
+import { useAptimusFlow } from "aptimus-sdk-test/react";
 import { jwtDecode } from "jwt-decode";
 
 // Define an interface for the AuthProvider props

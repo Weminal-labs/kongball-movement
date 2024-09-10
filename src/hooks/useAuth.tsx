@@ -1,4 +1,4 @@
-import { useAptimusFlow } from 'aptimus/react';
+import { useAptimusFlow } from 'aptimus-sdk-test/react';
 import React, { useContext, useEffect } from 'react'
 import AuthContext, { AuthContextType } from '../contexts/AuthProvider';
 

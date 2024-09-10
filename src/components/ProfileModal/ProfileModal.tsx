@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Modal } from "@mui/material";
-import useAuth from "../../hooks/useAuth";
-import { Aptos, AptosConfig, InputViewFunctionData, Network } from "@aptos-labs/ts-sdk";
+import {
+  Aptos,
+  AptosConfig,
+  InputViewFunctionData,
+  Network,
+} from "@aptos-labs/ts-sdk";
 import { MODULE_ADDRESS } from "../../utils/Var";
 import { PlayerInfo } from "../../type/type";
 import useGetPlayer from "../../hooks/useGetPlayer";
 import useContract from "../../hooks/useContract";
 import { Box, LinearProgress, Typography, Avatar } from "@mui/material";
-import { shortenAddress } from '../../utils/Shorten';
+import { shortenAddress } from "../../utils/Shorten";
 import { ContentCopy } from "@mui/icons-material";
 import { useAlert } from "../../contexts/AlertProvider";
 import CustomButton from "../buttons/CustomButton";
@@ -27,21 +31,34 @@ const existingImages = [
   "https://i.pinimg.com/564x/4c/53/a8/4c53a88106cf101590c53ddc421c5c56.jpg",
 ];
 
-const ProfileModal: React.FC<ProfileModalProps> = ({ open, handleOpen, handleClose }) => {
-  const { auth } = useAuth();
+const ProfileModal: React.FC<ProfileModalProps> = ({
+  open,
+  handleOpen,
+  handleClose,
+}) => {
   const address = localStorage.getItem("address") ?? "";
   const [balance, setBalance] = useState<string>("");
   const { fetchPlayer } = useGetPlayer();
   const { callContract } = useContract();
 
   const [playerInfo, setPlayerInfo] = useState<PlayerInfo>({
-    username: "", name: "", points: "0", games_played: "0", winning_games: "0", likes_received: "0", dislikes_received: "0", user_image: "", pool: "",
+    username: "",
+    name: "",
+    points: "0",
+    games_played: "0",
+    winning_games: "0",
+    likes_received: "0",
+    dislikes_received: "0",
+    user_image: "",
+    pool: "",
   });
 
   const [winRate, setWinRate] = useState<number>(0);
   const [editing, setEditing] = useState<boolean>(false);
   const [editingName, setEditingName] = useState<string>(playerInfo.name);
-  const [editingUsername, setEditingUsername] = useState<string>(playerInfo.username);
+  const [editingUsername, setEditingUsername] = useState<string>(
+    playerInfo.username,
+  );
   const [editingImageLink, setEditingImageLink] = useState<string>("");
   const [usernameTaken, setUsernameTaken] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -68,11 +85,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ open, handleOpen, handleClo
   const fetchPlayerInfo = async (address: string) => {
     setLoading(true);
     const player = await fetchPlayer(address);
-    const aptosConfig = new AptosConfig({ 
-      network: Network.TESTNET,
-      fullnode: 'https://faucet.testnet.suzuka.movementlabs.xyz/v1',
-      faucet: 'https://faucet.testnet.suzuka.movementlabs.xyz/',
-    });
+    const aptosConfig = new AptosConfig({ network: Network.TESTNET });
     const aptos = new Aptos(aptosConfig);
     const resource = await aptos.getAccountResource<Coin>({
       accountAddress: address,
@@ -91,14 +104,20 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ open, handleOpen, handleClo
 
   useEffect(() => {
     if (Number(playerInfo.games_played) > 0) {
-      const ratio = (Number(playerInfo.winning_games) / Number(playerInfo.games_played)) * 100;
+      const ratio =
+        (Number(playerInfo.winning_games) / Number(playerInfo.games_played)) *
+        100;
       setWinRate(parseFloat(ratio.toFixed(2)));
     }
   }, [playerInfo.games_played, playerInfo.winning_games]);
 
   const isUsernameTaken = async (username: string) => {
     try {
-      const aptosConfig = new AptosConfig({ network: Network.TESTNET });
+      const aptosConfig = new AptosConfig({
+        network: Network.TESTNET,
+        fullnode: "https://aptos.testnet.suzuka.movementlabs.xyz/v1",
+        faucet: "https://faucet.testnet.suzuka.movementlabs.xyz/",
+      });
       const aptos = new Aptos(aptosConfig);
       const payload: InputViewFunctionData = {
         function: `${MODULE_ADDRESS}::gamev3::is_username_taken`,
@@ -143,16 +162,67 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ open, handleOpen, handleClo
     setEditingImageLink("");
   };
 
-  return (
-    <Modal open={open} onClose={handleCloseModal} sx={{
-      backdropFilter: "blur(8px)",
+  const InfoRow = ({ label, value }: { label: string; value: string }) => (
+    <Box display="flex" alignItems="center" mb={1}>
+      <Typography
+        variant="body1"
+        fontWeight="bold"
+        sx={{ mr: 1, fontSize: "1.2rem" }}
+      >
+        {label}
+      </Typography>
+      <Typography variant="body1" sx={{ fontSize: "1.2rem" }}>
+        {value}
+      </Typography>
+    </Box>
+  );
 
-    }}>
-      <Box sx={{
-        width: '90vw', maxWidth: '580px', margin: 'auto', marginTop: '7%', background: 'linear-gradient(180deg, rgba(68, 97, 108, 0.6) 0%, rgba(42, 72, 74, 0.6) 100%)',
-        backdropFilter: "blur(1.5rem)", borderRadius: '8px', boxShadow: 24, padding: 3, position: 'relative', textTransform: 'uppercase'
-      }}>
-        <Typography variant="h6" fontWeight="bold" mb={2} mt={2} align="center" fontSize="2.3rem" letterSpacing="0.2rem" color="white">
+  // Reusable Component for Stat Boxes
+  const StatBox = ({ title, value }: { title: string; value: string }) => (
+    <Box textAlign="center" flex={1}>
+      <Typography variant="h6" fontWeight="bold">
+        {value}
+      </Typography>
+      <Typography variant="subtitle2" color="textSecondary">
+        {title}
+      </Typography>
+    </Box>
+  );
+
+  return (
+    <Modal
+      open={open}
+      onClose={handleCloseModal}
+      sx={{
+        backdropFilter: "blur(8px)",
+      }}
+    >
+      <Box
+        sx={{
+          width: "90vw",
+          maxWidth: "580px",
+          margin: "auto",
+          marginTop: "7%",
+          background:
+            "linear-gradient(180deg, rgba(68, 97, 108, 0.6) 0%, rgba(42, 72, 74, 0.6) 100%)",
+          backdropFilter: "blur(1.5rem)",
+          borderRadius: "8px",
+          boxShadow: 24,
+          padding: 3,
+          position: "relative",
+          textTransform: "uppercase",
+          color: "white",
+        }}
+      >
+        <Typography
+          variant="h6"
+          fontWeight="bold"
+          mb={2}
+          mt={2}
+          align="center"
+          fontSize="2.3rem"
+          letterSpacing="0.2rem"
+        >
           Player Information
         </Typography>
         {loading && (
@@ -160,24 +230,50 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ open, handleOpen, handleClo
             <LinearProgress />
           </Box>
         )}
-        <Box display="flex" alignItems="center" gap={4} margin="10px 0px 10px 35px" >
+        <Box
+          display="flex"
+          alignItems="center"
+          gap={4}
+          margin="10px 0px 10px 35px"
+        >
           <Avatar
-            src={playerInfo?.user_image || auth?.picture || ""}
+            src={playerInfo?.user_image || ""}
             alt="Profile Picture"
-            sx={{ width: 60, height: 60, cursor: editing ? 'pointer' : 'default' }}
-
+            sx={{
+              width: 60,
+              height: 60,
+              cursor: editing ? "pointer" : "default",
+            }}
           />
-          <Box display="flex" flexDirection="column" gap={1} mb={2} mt={2} >
-            <Typography variant="body1">email: {auth?.email}</Typography>
+          <Box display="flex" flexDirection="column" gap={1} mb={2} mt={2}>
+            {/* <Typography variant="body1">email: {auth?.email}</Typography> */}
             <Typography variant="body1" display="flex" alignItems="center">
-              id: {shortenAddress(address, 5)} <ContentCopy style={{ cursor: 'pointer', marginLeft: '5px' }} onClick={() => navigator.clipboard.writeText(address)} />
+              id: {shortenAddress(address, 5)}{" "}
+              <ContentCopy
+                style={{ cursor: "pointer", marginLeft: "5px" }}
+                onClick={() => navigator.clipboard.writeText(address)}
+              />
             </Typography>
-            <Typography variant="body1">username: {playerInfo?.name}</Typography>
-            <Typography variant="body1" display="flex" alignItems="center"> $ {(parseFloat(balance) / 100000000).toFixed(2)} APT</Typography>
+            <Typography variant="body1">
+              creator: {playerInfo?.username}
+            </Typography>
+            <Typography variant="body1" display="flex" alignItems="center">
+              {" "}
+              $ {parseFloat(balance) / 100000000}{" "}
+            </Typography>
           </Box>
         </Box>
-        <Typography variant="body1" fontSize="1.3rem" margin="0px 0px 0px 35px">   Win Rate: {winRate}%</Typography>
-        <Box display="flex" justifyContent="start" flexDirection="row" gap={2}  margin="30px 0px 0px 35px">
+        <Typography variant="body1" fontSize="1.3rem" margin="0px 0px 0px 35px">
+          {" "}
+          Win Rate: {winRate}%
+        </Typography>
+        <Box
+          display="flex"
+          justifyContent="start"
+          flexDirection="row"
+          gap={2}
+          margin="30px 0px 0px 35px"
+        >
           <Box
             width="120px"
             height="50px"
@@ -194,21 +290,24 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ open, handleOpen, handleClo
                 bottom: 0,
                 padding: "2px", // Adjust the thickness of the border here
                 background: "linear-gradient(to right, #F3F3F3, #433100)",
-                WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                WebkitMask:
+                  "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
                 mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
                 maskComposite: "exclude",
                 WebkitMaskComposite: "xor",
               },
-              backgroundColor: "rgba(21, 45, 49, 0.6)" // 60% opacity
-
+              backgroundColor: "rgba(21, 45, 49, 0.6)", // 60% opacity
             }}
-          >{Number(playerInfo?.games_played) - Number(playerInfo?.winning_games)} losses</Box>
+          >
+            {Number(playerInfo?.games_played) -
+              Number(playerInfo?.winning_games)}{" "}
+            losses
+          </Box>
           <Box
             width="110px"
             height="50px"
             textAlign="center"
             lineHeight="50px"
-            
             sx={{
               position: "relative",
               borderRadius: "10px",
@@ -221,18 +320,29 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ open, handleOpen, handleClo
                 bottom: 0,
                 padding: "2px", // Adjust the thickness of the border here
                 background: "linear-gradient(to right, #FFDE64, #433100)",
-                WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                WebkitMask:
+                  "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
                 mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
                 maskComposite: "exclude",
                 WebkitMaskComposite: "xor",
               },
               backgroundColor: "#152D31", // Inner content background color
             }}
-          >{Number(playerInfo?.winning_games)} wins</Box>
-
+          >
+            {Number(playerInfo?.winning_games)} wins
+          </Box>
         </Box>
-        <Box display="flex" justifyContent="center" margin="35px 35px 25px 35px">
-          <CustomButton content="close" isMain={true} onClick={handleCloseModal} disabled={loading} />
+        <Box
+          display="flex"
+          justifyContent="center"
+          margin="35px 35px 25px 35px"
+        >
+          <CustomButton
+            content="close"
+            isMain={true}
+            onClick={handleCloseModal}
+            disabled={loading}
+          />
         </Box>
 
         {/* <Box sx={{ overflowY: 'auto', maxHeight: '50vh', mb: 3 }}>
@@ -305,6 +415,8 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ open, handleOpen, handleClo
       )}
     </Box> */}
         {/* {!editing && (
+    </Box> */}
+        {/* {!editing && (
       <>
         <Box display="flex" justifyContent="space-between" gap={2} mb={2}>
           <StatBox title="Wins" value={playerInfo?.winning_games} />
@@ -331,8 +443,6 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ open, handleOpen, handleClo
         </Box> */}
       </Box>
     </Modal>
-
-
   );
 };
 

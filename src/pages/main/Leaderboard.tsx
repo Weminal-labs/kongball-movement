@@ -12,7 +12,7 @@ import {
 import { MODULE_ADDRESS } from "../../utils/Var";
 import PlayerInfoModal from "../../components/layout/Header/PlayerInfoModal";
 import useGetPlayer from "../../hooks/useGetPlayer";
-import { PlayerInfo } from "../../type/type.ts";// Player Interface
+import { PlayerInfo } from "../../type/type.ts"; // Player Interface
 interface Player {
   address: string;
   username: string;
@@ -73,7 +73,7 @@ const TabContainer = styled.div`
 
 const Tab = styled.button<{ $active: boolean }>`
   background-color: ${(props) => (props.$active ? "white" : "transparent")};
-  color: #488C84;
+  color: #488c84;
   border: none;
   padding: 10px 20px;
   margin: 0 5px;
@@ -100,7 +100,6 @@ const PodiumPlace = styled.div<{ place: number }>`
   animation: ${float} 3s ease-in-out infinite;
   animation-delay: ${(props) => props.place * 0.2}s;
 `;
-
 
 const Crown = styled.div`
   font-size: 40px;
@@ -187,8 +186,6 @@ const PlayerScore = styled.div`
   font-weight: bold;
 `;
 
-
-
 const shortenAddress = (address: string, chars = 4): string => {
   return `${address.slice(0, chars)}...${address.slice(-chars)}`;
 };
@@ -204,7 +201,6 @@ const Leaderboard: React.FC = () => {
   const [playerAddress, setPlayerAddress] = useState<string | null>(null);
   const { fetchPlayer } = useGetPlayer();
 
-
   useEffect(() => {
     if (activeTab === "top10") {
       fetchTop10Players();
@@ -215,12 +211,12 @@ const Leaderboard: React.FC = () => {
     }
   }, [activeTab]);
 
- const fetchPlayers = async (getPlayersFunction: string) => {
+  const fetchPlayers = async (getPlayersFunction: string) => {
     try {
-      const aptosConfig = new AptosConfig({ 
+      const aptosConfig = new AptosConfig({
         network: Network.TESTNET,
-        fullnode: 'https://faucet.testnet.suzuka.movementlabs.xyz/v1',
-        faucet: 'https://faucet.testnet.suzuka.movementlabs.xyz/',
+        fullnode: "https://aptos.testnet.suzuka.movementlabs.xyz/v1",
+        faucet: "https://faucet.testnet.suzuka.movementlabs.xyz/",
       });
       const aptos = new Aptos(aptosConfig);
       const payload: InputViewFunctionData = {
@@ -250,7 +246,6 @@ const Leaderboard: React.FC = () => {
   const fetchTop10Players = () => fetchPlayers("get_top_10_players");
   const fetchTop50Players = () => fetchPlayers("get_top_50_players");
   const fetchTop100Players = () => fetchPlayers("get_top_100_players");
-
 
   const handlePlayerInfoOpen = async (playerAddress: string) => {
     setLoading(true);
@@ -291,7 +286,7 @@ const Leaderboard: React.FC = () => {
           </Tab>
         </TabContainer>
 
-       <PodiumContainer>
+        <PodiumContainer>
           {topPlayers.map((player, index) => (
             <PodiumPlace key={player.address} place={index + 1}>
               <Crown>{index === 0 ? "👑" : index === 1 ? "🥈" : "🥉"}</Crown>
@@ -327,11 +322,11 @@ const Leaderboard: React.FC = () => {
         </LeaderboardList>
       </LeaderboardContainer>
       <PlayerInfoModal
-  open={playerInfoModalOpen}
-  handleClose={() => setPlayerInfoModalOpen(false)}
-  playerInfo={playerInfo}
-  playerAddress={playerAddress}
-/>
+        open={playerInfoModalOpen}
+        handleClose={() => setPlayerInfoModalOpen(false)}
+        playerInfo={playerInfo}
+        playerAddress={playerAddress}
+      />
     </>
   );
 };

@@ -1,11 +1,22 @@
 import { useEffect, useState } from "react";
-import { Aptos, AptosConfig, InputViewFunctionData, Network } from "@aptos-labs/ts-sdk";
-import { Avatar, Box, CircularProgress, Grid, Modal, Typography } from "@mui/material";
+import {
+  Aptos,
+  AptosConfig,
+  InputViewFunctionData,
+  Network,
+} from "@aptos-labs/ts-sdk";
+import {
+  Avatar,
+  Box,
+  CircularProgress,
+  Grid,
+  Modal,
+  Typography,
+} from "@mui/material";
 
 import { MODULE_ADDRESS } from "../../../utils/Var";
 import { SendButton } from "../../SendButton/SendButton";
 import { useAlert } from "../../../contexts/AlertProvider";
-import useAuth from "../../../hooks/useAuth";
 import useContract from "../../../hooks/useContract";
 import CustomButton from "../../buttons/CustomButton";
 import CustomInput from "../../input/CustomInput";
@@ -17,12 +28,10 @@ const CreateAccount = () => {
   const [usernameTaken, setUsernameTaken] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingFetch, setLoadingFetch] = useState<boolean>(true);
-  const { auth } = useAuth();
-  const address = localStorage.getItem("address")
+  const address = localStorage.getItem("address");
   const { callContract } = useContract();
   const { setAlert } = useAlert();
   const existingImages = [
-    `${auth?.picture}`,
     "https://i.pinimg.com/564x/08/13/41/08134115f47ccd166886b40f36485721.jpg",
     "https://i.pinimg.com/564x/92/ab/3f/92ab3fa97e04a9eedc3a73daa634aa84.jpg",
     "https://i.pinimg.com/564x/1a/cd/42/1acd42b4e937c727350954d0df62177d.jpg",
@@ -42,10 +51,10 @@ const CreateAccount = () => {
 
   const isUsernameTaken = async (username: string) => {
     try {
-      const aptosConfig = new AptosConfig({ 
+      const aptosConfig = new AptosConfig({
         network: Network.TESTNET,
-        fullnode: 'https://faucet.testnet.suzuka.movementlabs.xyz/v1',
-        faucet: 'https://faucet.testnet.suzuka.movementlabs.xyz/',
+        fullnode: "https://aptos.testnet.suzuka.movementlabs.xyz/v1",
+        faucet: "https://faucet.testnet.suzuka.movementlabs.xyz/",
       });
       const aptos = new Aptos(aptosConfig);
       const payload: InputViewFunctionData = {
@@ -65,7 +74,11 @@ const CreateAccount = () => {
       if (address) {
         try {
           setLoadingFetch(true);
-          const aptosConfig = new AptosConfig({ network: Network.TESTNET });
+          const aptosConfig = new AptosConfig({
+            network: Network.TESTNET,
+            fullnode: "https://aptos.testnet.suzuka.movementlabs.xyz/v1",
+            faucet: "https://faucet.testnet.suzuka.movementlabs.xyz/",
+          });
           const aptos = new Aptos(aptosConfig);
           const payload: InputViewFunctionData = {
             function: `${MODULE_ADDRESS}::gamev3::get_player_info`,
@@ -77,9 +90,9 @@ const CreateAccount = () => {
           window.location.href = "/";
         } catch (error) {
           setLoadingFetch(false);
-          console.log(address)
+          console.log(address);
 
-          console.log(error)
+          console.log(error);
 
           // Handle the error as needed
         }
@@ -112,7 +125,11 @@ const CreateAccount = () => {
     setLoading(true);
     await callContract({
       functionName: "update_account",
-      functionArgs: [editingName, editingUsername, editingImageLink],
+      functionArgs: [
+        editingName.toString(),
+        editingUsername.toString(),
+        editingImageLink.toString(),
+      ],
       onSuccess(result) {
         window.location.href = "/";
         setAlert("Create account successfully!", "success");
@@ -144,13 +161,34 @@ const CreateAccount = () => {
   // };
 
   return (
-    <Modal open={true} >
-      <Box sx={{
-        width: '100vw', maxWidth: '550px', margin: 'auto', marginTop: '3%', background: 'linear-gradient(180deg, rgba(68, 97, 108, 0.6) 0%, rgba(42, 72, 74, 0.6) 100%)',
-        borderRadius: '8px', boxShadow: 24, padding: 3, position: 'relative', textTransform: 'uppercase', border: "2px solid rgba(255, 222, 100, 0.2)"
-      }}>
-        <Box display="flex" flexDirection="column" gap={2} width="100%" >
-          <Typography variant="h6" fontWeight="bold" mb={1} mt={1.5} align="center" fontSize="1.8rem" letterSpacing="0.2rem" color="white">
+    <Modal open={true}>
+      <Box
+        sx={{
+          width: "100vw",
+          maxWidth: "550px",
+          margin: "auto",
+          marginTop: "3%",
+          background:
+            "linear-gradient(180deg, rgba(68, 97, 108, 0.6) 0%, rgba(42, 72, 74, 0.6) 100%)",
+          borderRadius: "8px",
+          boxShadow: 24,
+          padding: 3,
+          position: "relative",
+          textTransform: "uppercase",
+          border: "2px solid rgba(255, 222, 100, 0.2)",
+        }}
+      >
+        <Box display="flex" flexDirection="column" gap={2} width="100%">
+          <Typography
+            variant="h6"
+            fontWeight="bold"
+            mb={1}
+            mt={1.5}
+            align="center"
+            fontSize="1.8rem"
+            letterSpacing="0.2rem"
+            color="white"
+          >
             Create your account
           </Typography>
           <Box mb={1} width="450px" margin="0 auto">
@@ -158,8 +196,8 @@ const CreateAccount = () => {
               value={editingName}
               onChange={(e) => setEditingName(e.target.value)}
               placeholder="Name"
-              isMain={true} 
-              disabled={false} 
+              isMain={true}
+              disabled={false}
             />
           </Box>
           <Box width="450px" margin="0 auto">
@@ -167,16 +205,27 @@ const CreateAccount = () => {
               value={editingUsername}
               onChange={(e) => setEditingUsername(e.target.value)}
               placeholder="username"
-              isMain={true} 
-              disabled={false} 
+              isMain={true}
+              disabled={false}
             />
           </Box>
 
-          <Box display="flex" justifyContent="center" flexDirection="column" margin="0 25px 0 30px" gap={1.5}>
-            <Typography variant="subtitle1" fontSize="0.7rem" color="white" letterSpacing="0.1rem">
+          <Box
+            display="flex"
+            justifyContent="center"
+            flexDirection="column"
+            margin="0 25px 0 30px"
+            gap={1.5}
+          >
+            <Typography
+              variant="subtitle1"
+              fontSize="0.7rem"
+              color="white"
+              letterSpacing="0.1rem"
+            >
               Select your Avatar
             </Typography>
-            <Grid container spacing={2} >
+            <Grid container spacing={2}>
               {existingImages.map((imgUrl, index) => (
                 <Grid item xs={4} sm={2} key={index}>
                   <Avatar
@@ -196,29 +245,48 @@ const CreateAccount = () => {
               ))}
             </Grid>
 
-            <Typography variant="subtitle1" fontSize="0.7rem" color="white" letterSpacing="0.1rem" mt={1}>
+            <Typography
+              variant="subtitle1"
+              fontSize="0.7rem"
+              color="white"
+              letterSpacing="0.1rem"
+              mt={1}
+            >
               Or enter image URL
             </Typography>
-            <Box display="flex" justifyContent="center" >
+            <Box display="flex" justifyContent="center">
               <CustomInput
                 value={editingImageLink}
                 onChange={(e) => setEditingImageLink(e.target.value)}
                 placeholder="Paste url here"
                 isMain={true}
                 disabled={false}
-              /></Box>
+              />
+            </Box>
           </Box>
 
-
-          <Box display="flex" justifyContent="center" mt={1} margin="10px 25px 0 30px" >
+          <Box
+            display="flex"
+            justifyContent="center"
+            mt={1}
+            margin="10px 25px 0 30px"
+          >
             <SendButton walletAddress={address || ""} type={Network.TESTNET}>
               Faucet
             </SendButton>
           </Box>
-          <Box display="flex" justifyContent="center" margin="10px 25px 25px 30px">
-            <CustomButton content={loading ? "Loading..." : "Create"} isMain={true} onClick={handleUpdate} disabled={loading || !allFieldsFilled()} />
+          <Box
+            display="flex"
+            justifyContent="center"
+            margin="10px 25px 25px 30px"
+          >
+            <CustomButton
+              content={loading ? "Loading..." : "Create"}
+              isMain={true}
+              onClick={handleUpdate}
+              disabled={loading || !allFieldsFilled()}
+            />
           </Box>
-
         </Box>
       </Box>
     </Modal>
