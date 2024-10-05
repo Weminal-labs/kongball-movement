@@ -25,12 +25,12 @@ const Faucet: React.FC = () => {
   };
 
   const createRoomContract = async () => {
-    const aptosConfig = new AptosConfig({ network: Network.TESTNET });
+    const aptosConfig = new AptosConfig({ network: Network.DEVNET });
     const aptos = new Aptos(aptosConfig);
   };
   const address = localStorage.getItem("address");
   // const pickWinnerByRoomId = async () => {
-  //   const aptosConfig = new AptosConfig({ network: Network.TESTNET });
+  //   const aptosConfig = new AptosConfig({ network: Network.DEVNET });
   //   const aptos = new Aptos(aptosConfig);
 
   //   const privateKey = new Ed25519PrivateKey("0x0cdae4b8e4a1795ffc36d89ebbbdd7bd0cb0e0d81091290096f8d92d40c1fe43");
@@ -92,13 +92,15 @@ const Faucet: React.FC = () => {
     // console.log(a)
   };
   return (
-    <Box sx={{
-      width:"100%",
-      height:"100%",
-      display:"flex",
-      justifyContent:"center",
-      alignItems:"center"
-    }}>
+    <Box
+      sx={{
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
       <Box
         sx={{
           height: "50vh",
@@ -109,7 +111,7 @@ const Faucet: React.FC = () => {
           alignItems: "center",
         }}
       >
-        <SendButton walletAddress={address || ""} type={Network.TESTNET}>
+        <SendButton walletAddress={address || ""} type={Network.DEVNET}>
           Faucet
         </SendButton>
       </Box>

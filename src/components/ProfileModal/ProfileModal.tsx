@@ -85,7 +85,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
   const fetchPlayerInfo = async (address: string) => {
     setLoading(true);
     const player = await fetchPlayer(address);
-    const aptosConfig = new AptosConfig({ network: Network.TESTNET });
+    const aptosConfig = new AptosConfig({ network: Network.DEVNET });
     const aptos = new Aptos(aptosConfig);
     const resource = await aptos.getAccountResource<Coin>({
       accountAddress: address,
@@ -114,7 +114,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
   const isUsernameTaken = async (username: string) => {
     try {
       const aptosConfig = new AptosConfig({
-        network: Network.TESTNET,
+        network: Network.DEVNET,
         fullnode: "https://aptos.testnet.suzuka.movementlabs.xyz/v1",
         faucet: "https://faucet.testnet.suzuka.movementlabs.xyz/",
       });

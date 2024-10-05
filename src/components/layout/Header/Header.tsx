@@ -93,7 +93,7 @@ const Header: React.FC = () => {
 
   const fetchBalance = async (address: string) => {
     setLoading(true);
-    const aptosConfig = new AptosConfig({ network: Network.TESTNET });
+    const aptosConfig = new AptosConfig({ network: Network.DEVNET });
     const aptos = new Aptos(aptosConfig);
     const resource = await aptos.getAccountResource<Coin>({
       accountAddress: address,
@@ -134,7 +134,7 @@ const Header: React.FC = () => {
   const fetchMessages = async () => {
     try {
       const aptosConfig = new AptosConfig({
-        network: Network.TESTNET,
+        network: Network.DEVNET,
         fullnode: "https://aptos.testnet.suzuka.movementlabs.xyz/v1",
         faucet: "https://faucet.testnet.suzuka.movementlabs.xyz/",
       });

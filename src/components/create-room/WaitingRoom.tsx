@@ -10,7 +10,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import PersonRemoveAlt1Icon from '@mui/icons-material/PersonRemoveAlt1';
+import PersonRemoveAlt1Icon from "@mui/icons-material/PersonRemoveAlt1";
 
 import useAuth from "../../hooks/useAuth";
 import { CreateRoomType, RoomType } from "../../type/type";
@@ -59,9 +59,9 @@ const WaitingRoom = ({ open, room, closeRoom, isCreator, openGame }: Pros) => {
   const [valueVol, setValueVol] = React.useState<number>(30);
   const [openVol, setOpenVol] = React.useState<boolean>(false);
   const { handleUnload, sendMessage } = useUnityGame();
-  const [roomDetail, setRoomDetail] = useState<RoomType|null>(null);
+  const [roomDetail, setRoomDetail] = useState<RoomType | null>(null);
   const { fetchPlayer, loadingFetch } = useGetPlayer();
-  const [countDown,setCountDown] = useState<number|null>(null)
+  const [countDown, setCountDown] = useState<number | null>(null);
   const { callContract, loading, error } = useContract();
 
   const handleChangeVol = (event: Event, newValue: number | number[]) => {
@@ -78,87 +78,86 @@ const WaitingRoom = ({ open, room, closeRoom, isCreator, openGame }: Pros) => {
 
   useEffect(() => {
     const fetchInitialPlayerData = async () => {
-      if(roomDetail?.creator){
+      if (roomDetail?.creator) {
         const p1 = await fetchPlayer(roomDetail?.creator);
-        console.log(":a")
+        console.log(":a");
 
         setPlayer1({
-          address: roomDetail?.creator??"",
-          ready: roomDetail?.creator_ready??false,
+          address: roomDetail?.creator ?? "",
+          ready: roomDetail?.creator_ready ?? false,
           avatar: p1?.user_image ?? "",
           point: p1?.points ?? "",
         });
       }
-      if(!isCreator && roomDetail?.is_player2_joined===false){
-        console.log("adsdasdsa: "+roomDetail?.is_player2_joined)
-        closeRoom()
+      if (!isCreator && roomDetail?.is_player2_joined === false) {
+        console.log("adsdasdsa: " + roomDetail?.is_player2_joined);
+        closeRoom();
       }
       if (roomDetail?.is_player2_joined) {
         const p2 = await fetchPlayer(roomDetail.player2.vec[0]);
-        console.log(p2)
+        console.log(p2);
         setPlayer2({
           address: roomDetail.player2.vec[0] ?? "",
           ready: roomDetail.is_player2_ready,
           avatar: p2?.user_image ?? "",
           point: p2?.points ?? "",
         });
-
       }
-      if(!roomDetail?.is_player2_joined){
+      if (!roomDetail?.is_player2_joined) {
         const intervalId = setInterval(() => {
           getDetailRoom(intervalId);
         }, 1500);
-      
-        return () => clearInterval(intervalId); 
+
+        return () => clearInterval(intervalId);
       }
     };
     fetchInitialPlayerData();
-  }, [roomDetail?.is_player2_joined,roomDetail?.creator,roomDetail?.is_player2_ready,roomDetail?.creator_ready]);
+  }, [
+    roomDetail?.is_player2_joined,
+    roomDetail?.creator,
+    roomDetail?.is_player2_ready,
+    roomDetail?.creator_ready,
+  ]);
 
   useEffect(() => {
-    console.log(roomDetail?.creator_ready)
-    if(roomDetail?.creator_ready){
-      setPlayer1((prev: Player | null) =>{
-        if(prev){
+    console.log(roomDetail?.creator_ready);
+    if (roomDetail?.creator_ready) {
+      setPlayer1((prev: Player | null) => {
+        if (prev) {
           ({
             ...prev,
             ready: roomDetail.creator_ready,
-          })
+          });
         }
-        return prev
-      } );
+        return prev;
+      });
     }
     if (roomDetail?.is_player2_joined) {
-      setPlayer2((prev: Player | null) =>{
-        if(prev){
+      setPlayer2((prev: Player | null) => {
+        if (prev) {
           ({
             ...prev,
             ready: roomDetail.is_player2_ready,
-          })
+          });
         }
-        return prev
-      } );
+        return prev;
+      });
     }
- 
-  }, [roomDetail?.is_player2_ready,roomDetail?.creator_ready]);
+  }, [roomDetail?.is_player2_ready, roomDetail?.creator_ready]);
   useEffect(() => {
- 
-      const intervalId = setInterval(() => {
-        getDetailRoom(intervalId);
-      }, 1500);
-    
-      return () => clearInterval(intervalId); // Clear interval khi component unmount
-    
-  }, []);
-  useEffect(()=>{
-    if (player1?.ready && player2?.ready) {
-      console.log(player1)
-      console.log(player2)
-      setCountDown(5)
-   
+    const intervalId = setInterval(() => {
+      getDetailRoom(intervalId);
+    }, 1500);
 
+    return () => clearInterval(intervalId); // Clear interval khi component unmount
+  }, []);
+  useEffect(() => {
+    if (player1?.ready && player2?.ready) {
+      console.log(player1);
+      console.log(player2);
+      setCountDown(5);
     }
-  },[player1,player2])
+  }, [player1, player2]);
   const getDetailRoom = async (intervalId: NodeJS.Timeout) => {
     try {
       // console.log("exit")
@@ -167,7 +166,6 @@ const WaitingRoom = ({ open, room, closeRoom, isCreator, openGame }: Pros) => {
 
       if (roomData.creator_ready && roomData.is_player2_ready) {
         clearInterval(intervalId); // Dừng interval khi cả hai player sẵn sàng
-        
       }
     } catch (error) {
       console.error("Error fetching room details:", error);
@@ -184,10 +182,10 @@ const WaitingRoom = ({ open, room, closeRoom, isCreator, openGame }: Pros) => {
     }
   }, [countDown]);
   const fetchRoomDetail = async (): Promise<RoomType> => {
-    const aptosConfig = new AptosConfig({ 
-      network: Network.TESTNET,
-      fullnode: 'https://faucet.testnet.suzuka.movementlabs.xyz/v1',
-      faucet: 'https://faucet.testnet.suzuka.movementlabs.xyz/',
+    const aptosConfig = new AptosConfig({
+      network: Network.DEVNET,
+      fullnode: "https://faucet.testnet.suzuka.movementlabs.xyz/v1",
+      faucet: "https://faucet.testnet.suzuka.movementlabs.xyz/",
     });
     const aptos = new Aptos(aptosConfig);
     const payload: InputViewFunctionData = {
@@ -202,30 +200,27 @@ const WaitingRoom = ({ open, room, closeRoom, isCreator, openGame }: Pros) => {
   };
   const countDownHandle = (intervalId: NodeJS.Timeout) => {
     console.log(countDown);
-  
+
     if (countDown === 1) {
       startGame(); // Khi countdown về 0, bắt đầu game
       clearTimeout(intervalId);
     } else {
       setCountDown((prev: number | null) => {
-
         if (prev && prev >= -1) {
-
           return prev - 1; // Giảm giá trị countdown
         }
         return prev;
       });
     }
   };
-  
-  
+
   const startGame = () => {
-    console.log(player1?.ready +" "+ player2?.ready)
+    console.log(player1?.ready + " " + player2?.ready);
     if (player1?.ready && player2?.ready) {
       console.log("start");
       openGame();
     } else {
-      setAlert("Player not ready",'error')
+      setAlert("Player not ready", "error");
     }
   };
   const toggleReadyStatus = (
@@ -233,7 +228,7 @@ const WaitingRoom = ({ open, room, closeRoom, isCreator, openGame }: Pros) => {
     setPlayer: React.Dispatch<React.SetStateAction<Player | null>>,
   ): boolean => {
     if (player?.ready) {
-      setAlert("You can not cancel ready",'error')
+      setAlert("You can not cancel ready", "error");
       return false;
     } else {
       setPlayer((prev) => (prev ? { ...prev, ready: !prev.ready } : null));
@@ -241,7 +236,6 @@ const WaitingRoom = ({ open, room, closeRoom, isCreator, openGame }: Pros) => {
     }
   };
 
-  
   const readyHandle = async () => {
     const isReadyUpdated = isCreator
       ? toggleReadyStatus(player1, setPlayer1)
@@ -278,40 +272,37 @@ const WaitingRoom = ({ open, room, closeRoom, isCreator, openGame }: Pros) => {
   const handleCloseRoom = async () => {
     await callContract({
       functionName: "leave_room",
-      functionArgs:[],
+      functionArgs: [],
       onError(error) {
-             // @ts-ignore
-      console.error("Mã Lỗi:", error.status);
-      // @ts-ignore
-      setAlert(error.toString(),"error");
-      console.error("Lỗi khi gọi hàm smart contract:", error);
+        // @ts-ignore
+        console.error("Mã Lỗi:", error.status);
+        // @ts-ignore
+        setAlert(error.toString(), "error");
+        console.error("Lỗi khi gọi hàm smart contract:", error);
       },
       onSuccess(result) {
         handleUnload();
         closeRoom();
         setOpenDialog(false);
       },
-    })
-    
+    });
   };
-  const handleKickPlayer= async()=>{
+  const handleKickPlayer = async () => {
     await callContract({
       functionName: "kick_player2_in_room_now",
-      functionArgs:[],
+      functionArgs: [],
       onError(error) {
-      // @ts-ignore
-      console.error("Mã Lỗi:", error.status);
-      // @ts-ignore
-      setAlert(error.toString(),"error")
-      console.error("Lỗi khi gọi hàm smart contract:", error);
+        // @ts-ignore
+        console.error("Mã Lỗi:", error.status);
+        // @ts-ignore
+        setAlert(error.toString(), "error");
+        console.error("Lỗi khi gọi hàm smart contract:", error);
       },
       onSuccess(result) {
-        fetchRoomDetail()
-
+        fetchRoomDetail();
       },
-    })
-
-  }
+    });
+  };
   return (
     <>
       <Modal
@@ -379,7 +370,14 @@ const WaitingRoom = ({ open, room, closeRoom, isCreator, openGame }: Pros) => {
                     sx={{ cursor: "pointer", width: "60px", height: "60px" }}
                   />
                   <h1>{player2?.point} Point</h1>
-                  <h1>{shortenAddress(player2?.address ?? "", 5)} {isCreator&&<IconButton onClick={handleKickPlayer}><PersonRemoveAlt1Icon/></IconButton>}  </h1>
+                  <h1>
+                    {shortenAddress(player2?.address ?? "", 5)}{" "}
+                    {isCreator && (
+                      <IconButton onClick={handleKickPlayer}>
+                        <PersonRemoveAlt1Icon />
+                      </IconButton>
+                    )}{" "}
+                  </h1>
                   <h1>{player2?.ready ? "ready" : ""}</h1>
                 </Box>
               )}
@@ -426,7 +424,9 @@ const WaitingRoom = ({ open, room, closeRoom, isCreator, openGame }: Pros) => {
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={()=>{readyHandle()}}
+                  onClick={() => {
+                    readyHandle();
+                  }}
                 >
                   ready
                 </Button>

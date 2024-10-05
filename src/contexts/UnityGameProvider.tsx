@@ -12,10 +12,7 @@ import React, {
   ReactNode,
   useCallback,
 } from "react";
-import {
-  useUnityContext,
-  Unity,
-} from "react-unity-webgl";
+import { useUnityContext, Unity } from "react-unity-webgl";
 import { MODULE_ADDRESS } from "../utils/Var";
 import { Compare } from "../utils/CompareAddress";
 import { useAlert } from "./AlertProvider";
@@ -48,7 +45,7 @@ export const UnityGameProvider: React.FC<GameProviderProps> = ({
     codeUrl: "build/Build/Build.wasm",
   });
   const { setAlert } = useAlert();
-  const {signAndSubmitTransaction }=useAptosWallet()
+  const { signAndSubmitTransaction } = useAptosWallet();
   const [show, setShow] = useState(false);
   const handleUnload = async () => {
     await unload();
@@ -56,13 +53,12 @@ export const UnityGameProvider: React.FC<GameProviderProps> = ({
 
   const pickWinnerByRoomId = async (roomId: number, winner: string) => {
     const aptosConfig = new AptosConfig({
-      network: Network.TESTNET,
+      network: Network.DEVNET,
       fullnode: "https://aptos.testnet.suzuka.movementlabs.xyz/v1",
       faucet: "https://faucet.testnet.suzuka.movementlabs.xyz/",
-    });    const aptos = new Aptos(aptosConfig);
-    const privateKey = new Ed25519PrivateKey(
-      import.meta.env.VITE_SECRET_KEY,
-    );
+    });
+    const aptos = new Aptos(aptosConfig);
+    const privateKey = new Ed25519PrivateKey(import.meta.env.VITE_SECRET_KEY);
 
     const account = await Account.fromPrivateKey({ privateKey });
 
@@ -73,13 +69,10 @@ export const UnityGameProvider: React.FC<GameProviderProps> = ({
 
     try {
       const transaction = await aptos.transaction.build.simple({
-        sender: accountAddress, 
+        sender: accountAddress,
         data: {
           function: FUNCTION_NAME,
-          functionArguments: [
-            roomId.toString(),
-            winner.toString(), 
-          ],
+          functionArguments: [roomId.toString(), winner.toString()],
         },
       });
 
@@ -96,16 +89,16 @@ export const UnityGameProvider: React.FC<GameProviderProps> = ({
 
       console.log("Executed Transaction:", executedTransaction);
       // const response = await signAndSubmitTransaction({
-        
+
       //   payload: {
-        
+
       //     function: FUNCTION_NAME,
       //     functionArguments: [roomId,winner, ],
       //     typeArguments: [],
-          
+
       //   }
       // });
-      const alertContent = 
+      const alertContent = (
         <>
           Transaction:{" "}
           {/* <a
@@ -116,32 +109,27 @@ export const UnityGameProvider: React.FC<GameProviderProps> = ({
             {executedTransaction.hash}
           </a> */}
         </>
-    
-      
-      setAlert(alertContent, "success"); 
+      );
+
+      setAlert(alertContent, "success");
     } catch (error) {
-          // @ts-ignore
+      // @ts-ignore
 
       console.error("Mã Lỗi:", error.status);
       console.error("Lỗi khi gọi hàm smart contract:", error);
     }
   };
   const handleUnityApplicationQuit = useCallback(() => {
- 
-
     setShow(false);
     unload();
-  
   }, []);
   const handleUnityApplicationFinish = useCallback((jsonData: any) => {
     const data: PickWinner = JSON.parse(jsonData);
-    const address = localStorage.getItem("address")
+    const address = localStorage.getItem("address");
 
-  
-    if(Compare(data.userId,address!,5)){
-        console.log("Data received from Unity on quit:", data.userId);
-        pickWinnerByRoomId(Number(data.roomId),data.userId)
-
+    if (Compare(data.userId, address!, 5)) {
+      console.log("Data received from Unity on quit:", data.userId);
+      pickWinnerByRoomId(Number(data.roomId), data.userId);
     }
   }, []);
   useEffect(() => {
@@ -153,9 +141,13 @@ export const UnityGameProvider: React.FC<GameProviderProps> = ({
     return () => {
       removeEventListener("ExitGame", handleUnityApplicationQuit);
       removeEventListener("FinishGame", handleUnityApplicationFinish);
-
     };
-  }, [addEventListener, removeEventListener, handleUnityApplicationQuit,handleUnityApplicationFinish]);
+  }, [
+    addEventListener,
+    removeEventListener,
+    handleUnityApplicationQuit,
+    handleUnityApplicationFinish,
+  ]);
 
   return (
     <UnityGameContext.Provider

@@ -52,7 +52,7 @@ const CreateAccount = () => {
   const isUsernameTaken = async (username: string) => {
     try {
       const aptosConfig = new AptosConfig({
-        network: Network.TESTNET,
+        network: Network.DEVNET,
         fullnode: "https://aptos.testnet.suzuka.movementlabs.xyz/v1",
         faucet: "https://faucet.testnet.suzuka.movementlabs.xyz/",
       });
@@ -75,7 +75,7 @@ const CreateAccount = () => {
         try {
           setLoadingFetch(true);
           const aptosConfig = new AptosConfig({
-            network: Network.TESTNET,
+            network: Network.DEVNET,
             fullnode: "https://aptos.testnet.suzuka.movementlabs.xyz/v1",
             faucet: "https://faucet.testnet.suzuka.movementlabs.xyz/",
           });
@@ -271,7 +271,7 @@ const CreateAccount = () => {
             mt={1}
             margin="10px 25px 0 30px"
           >
-            <SendButton walletAddress={address || ""} type={Network.TESTNET}>
+            <SendButton walletAddress={address || ""} type={Network.DEVNET}>
               Faucet
             </SendButton>
           </Box>

@@ -12,9 +12,21 @@ import styled from "styled-components";
 import CloseIcon from "@mui/icons-material/Close";
 import { useAlert } from "../../../contexts/AlertProvider";
 import CustomButton from "../../buttons/CustomButton";
-import { StyledAutocomplete, StyledBox, StyledIconButton, StyledModal, StyledRadioGroup, StyledTextField } from "./CreateForm.style";
+import {
+  StyledAutocomplete,
+  StyledBox,
+  StyledIconButton,
+  StyledModal,
+  StyledRadioGroup,
+  StyledTextField,
+} from "./CreateForm.style";
 import CustomInput from "../../input/CustomInput";
-import { Aptos, AptosConfig, InputViewFunctionData, Network } from "@aptos-labs/ts-sdk";
+import {
+  Aptos,
+  AptosConfig,
+  InputViewFunctionData,
+  Network,
+} from "@aptos-labs/ts-sdk";
 import { SendButton } from "../../SendButton/SendButton";
 
 const stadiums = [
@@ -63,7 +75,7 @@ const CustomButtonSelect = styled("div")<CustomButtonProps>(
     "&:hover": {
       backgroundColor: "grey",
     },
-    fontFamily: 'revert'
+    fontFamily: "revert",
   }),
 );
 
@@ -95,8 +107,7 @@ const CreateForm: React.FC<Props> = ({ createRoomContract, open, onClose }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const { setAlert } = useAlert();
-  const address = localStorage.getItem("address")
-
+  const address = localStorage.getItem("address");
 
   const allFieldsFilled = () => {
     if (roomName && bet) {
@@ -117,7 +128,6 @@ const CreateForm: React.FC<Props> = ({ createRoomContract, open, onClose }) => {
       onClose={onClose}
       aria-labelledby="create-room-modal-title"
       aria-describedby="create-room-modal-description"
-
     >
       <StyledBox isMobile={isMobile}>
         <StyledIconButton onClick={onClose}>
@@ -127,22 +137,46 @@ const CreateForm: React.FC<Props> = ({ createRoomContract, open, onClose }) => {
         <h1 id="create-room-modal-title" className="text-[40px]">
           Create a Room
         </h1>
-        <Box sx={{ width: '90%', maxWidth: '500px' }}>
-          <Typography variant="h6" mb={1} fontSize='0.8rem' letterSpacing='0.1rem'>STAGE</Typography>
+        <Box sx={{ width: "90%", maxWidth: "500px" }}>
+          <Typography
+            variant="h6"
+            mb={1}
+            fontSize="0.8rem"
+            letterSpacing="0.1rem"
+          >
+            STAGE
+          </Typography>
           <StyledAutocomplete
             options={stadiums}
             value={roomName}
             //@ts-ignore
-            onChange={(event,value) => setRoomName(value)}
+            onChange={(event, value) => setRoomName(value)}
             renderInput={(params) => (
-              <StyledTextField {...params} label="STADIUM" variant="outlined" fullWidth />
+              <StyledTextField
+                {...params}
+                label="STADIUM"
+                variant="outlined"
+                fullWidth
+              />
             )}
           />
         </Box>
-        <Box sx={{ width: '90%', maxWidth: '500px' }}>
-          <Typography variant="h6" mb={1} fontSize='0.8rem' letterSpacing='0.1rem'>BET</Typography>
+        <Box sx={{ width: "90%", maxWidth: "500px" }}>
+          <Typography
+            variant="h6"
+            mb={1}
+            fontSize="0.8rem"
+            letterSpacing="0.1rem"
+          >
+            BET
+          </Typography>
           <StyledRadioGroup
-            sx={{ maxWidth: '40%', display: 'flex', justifyContent: 'space-between', margin: '0 auto' }}
+            sx={{
+              maxWidth: "40%",
+              display: "flex",
+              justifyContent: "space-between",
+              margin: "0 auto",
+            }}
             aria-label="bet"
             name="bet"
             value={bet}
@@ -169,16 +203,26 @@ const CreateForm: React.FC<Props> = ({ createRoomContract, open, onClose }) => {
             />
           </StyledRadioGroup>
         </Box>
-        <Box sx={{width: '90%'}}>
-          <Box sx={{ width: '100%', maxWidth: '500px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <Typography variant="h6" fontSize='0.8rem' letterSpacing='0.1rem'>MATE</Typography>
+        <Box sx={{ width: "90%" }}>
+          <Box
+            sx={{
+              width: "100%",
+              maxWidth: "500px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <Typography variant="h6" fontSize="0.8rem" letterSpacing="0.1rem">
+              MATE
+            </Typography>
             <Switch
               checked={isMateEnabled}
               onChange={(e) => setIsMateEnabled(e.target.checked)}
               color="primary"
             />
           </Box>
-          <Box sx={{ width: '100%', maxWidth: '500px' }}>
+          <Box sx={{ width: "100%", maxWidth: "500px" }}>
             <CustomInput
               value={mate}
               onChange={(e) => setMate(e.target.value)}
@@ -186,13 +230,14 @@ const CreateForm: React.FC<Props> = ({ createRoomContract, open, onClose }) => {
               isMain={true}
               disabled={!isMateEnabled}
             />
-          </Box></Box>
+          </Box>
+        </Box>
         <Box display="flex" justifyContent="center" width="90%" mt={1}>
-          <SendButton walletAddress={address || ""} type={Network.TESTNET}>
+          <SendButton walletAddress={address || ""} type={Network.DEVNET}>
             Faucet
           </SendButton>
         </Box>
-        <div className="w-[90%] mb-5">
+        <div className="mb-5 w-[90%]">
           <CustomButton
             onClick={allFieldsFilled}
             content="Create"

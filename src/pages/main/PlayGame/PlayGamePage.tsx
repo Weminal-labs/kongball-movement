@@ -59,10 +59,11 @@ const PlayGame: React.FC = () => {
   }, []);
   const getCurrentRoom = async () => {
     const aptosConfig = new AptosConfig({
-      network: Network.TESTNET,
-      fullnode: 'https://aptos.testnet.suzuka.movementlabs.xyz/v1',
-      faucet: 'https://faucet.testnet.suzuka.movementlabs.xyz/',
-      });        const aptos = new Aptos(aptosConfig);
+      network: Network.DEVNET,
+      fullnode: "https://aptos.testnet.suzuka.movementlabs.xyz/v1",
+      faucet: "https://faucet.testnet.suzuka.movementlabs.xyz/",
+    });
+    const aptos = new Aptos(aptosConfig);
     const payload: InputViewFunctionData = {
       function: `${MODULE_ADDRESS}::gamev3::get_room_now`,
       functionArguments: [address],
@@ -155,7 +156,7 @@ const PlayGame: React.FC = () => {
       console.log(mateAddress);
       functionName = "create_room_mate";
       const aptosConfig = new AptosConfig({
-        network: Network.TESTNET,
+        network: Network.DEVNET,
         fullnode: "https://aptos.testnet.suzuka.movementlabs.xyz/v1",
         faucet: "https://faucet.testnet.suzuka.movementlabs.xyz/",
       });

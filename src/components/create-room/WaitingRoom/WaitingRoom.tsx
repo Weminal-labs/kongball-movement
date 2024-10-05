@@ -195,10 +195,11 @@ const WaitingRoom = ({ open, room, closeRoom, isCreator, openGame }: Pros) => {
   }, [countDown]);
   const fetchRoomDetail = async (): Promise<RoomType> => {
     const aptosConfig = new AptosConfig({
-      network: Network.TESTNET,
-      fullnode: 'https://aptos.testnet.suzuka.movementlabs.xyz/v1',
-      faucet: 'https://faucet.testnet.suzuka.movementlabs.xyz/',
-      });          const aptos = new Aptos(aptosConfig);
+      network: Network.DEVNET,
+      fullnode: "https://aptos.testnet.suzuka.movementlabs.xyz/v1",
+      faucet: "https://faucet.testnet.suzuka.movementlabs.xyz/",
+    });
+    const aptos = new Aptos(aptosConfig);
     const payload: InputViewFunctionData = {
       function: `${MODULE_ADDRESS}::gamev3::room_detail_by_room_id`,
       functionArguments: [Number(room?.room_id ?? 0)],
@@ -322,9 +323,11 @@ const WaitingRoom = ({ open, room, closeRoom, isCreator, openGame }: Pros) => {
         onClose={() => {
           setOpenDialog(true);
         }}
-        sx={{
-          // backdropFilter: "blur(3px)",
-        }}
+        sx={
+          {
+            // backdropFilter: "blur(3px)",
+          }
+        }
       >
         <WaitingRoomModalContainer>
           <StadiumTitle>STADIUM: {room?.room_name ?? ""}</StadiumTitle>
@@ -397,7 +400,7 @@ const WaitingRoom = ({ open, room, closeRoom, isCreator, openGame }: Pros) => {
                       flexGrow: 0,
                     }}
                   >
-                    {Number(room?.bet_amount) / 100000000 } APT
+                    {Number(room?.bet_amount) / 100000000} APT
                   </Typography>
                 </PlayerCountBox>
               </PlayerCountBox>

@@ -18,7 +18,7 @@ const useContract = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<null | string>(null);
   // const flow = useAptimusFlow();
-  const { signAndSubmitTransaction, disconnect}=useAptosWallet()
+  const { signAndSubmitTransaction, disconnect } = useAptosWallet();
   const callContract = async ({
     functionName,
     functionArgs,
@@ -27,12 +27,13 @@ const useContract = () => {
     onFinally,
   }: useContractProps) => {
     const aptosConfig = new AptosConfig({
-      network: Network.TESTNET,
-      fullnode: 'https://aptos.testnet.suzuka.movementlabs.xyz/v1',
-      faucet: 'https://faucet.testnet.suzuka.movementlabs.xyz/',
-      });
+      network: Network.DEVNET,
+      fullnode: "https://aptos.testnet.suzuka.movementlabs.xyz/v1",
+      faucet: "https://faucet.testnet.suzuka.movementlabs.xyz/",
+    });
+
     const aptos = new Aptos(aptosConfig);
-    const address = localStorage.getItem("address")
+    const address = localStorage.getItem("address");
 
     try {
       setLoading(true);
@@ -48,30 +49,31 @@ const useContract = () => {
       // });
       const response = await signAndSubmitTransaction({
         payload: {
-        
           function: `${MODULE_ADDRESS}::gamev3::${functionName}`,
           functionArguments: functionArgs,
-          typeArguments: []
-        }
+          typeArguments: [],
+        },
       });
-              // @ts-ignore
+      // @ts-ignore
 
-      const committedTransaction=await aptos.waitForTransaction({ transactionHash: response.args.hash });
-      console.log(committedTransaction)
+      const committedTransaction = await aptos.waitForTransaction({
+        transactionHash: response.args.hash,
+      });
+      console.log(committedTransaction);
       if (onSuccess) {
         // @ts-ignore
         onSuccess(committedTransaction);
       }
-    } catch (error: any) { 
-      console.log(error.message)
+    } catch (error: any) {
+      console.log(error.message);
       // if (error.status === 400) {
       //   disconnect
       //   localStorage.clear()
       //   window.location.reload();
       // }
       // if(error.message==="Missing required data for execution."){
-      //   disconnect        
-        
+      //   disconnect
+
       //   localStorage.clear()
       //   window.location.reload();
       // }

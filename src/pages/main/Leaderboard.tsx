@@ -214,7 +214,7 @@ const Leaderboard: React.FC = () => {
   const fetchPlayers = async (getPlayersFunction: string) => {
     try {
       const aptosConfig = new AptosConfig({
-        network: Network.TESTNET,
+        network: Network.DEVNET,
         fullnode: "https://aptos.testnet.suzuka.movementlabs.xyz/v1",
         faucet: "https://faucet.testnet.suzuka.movementlabs.xyz/",
       });

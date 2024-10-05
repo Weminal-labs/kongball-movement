@@ -17,19 +17,14 @@ const RequireAuth = () => {
   const [loading, setLoading] = useState(true);
   const [checkUpdate, setCheckUpdate] = useState(true);
   const navigate = useNavigate();
-  const { account,connected, connecting } = useAptosWallet();
+  const { account, connected, connecting } = useAptosWallet();
   useEffect(() => {
     // console.log(isLoading)
-    if(connected){
+    if (connected) {
       const address = localStorage.getItem("address") ?? "";
- 
-  
-        UpdateAccount(address);
-      
-  
+
+      UpdateAccount(address);
     }
-
-
   }, [connecting]);
   // useEffect(()=>{
   //   console.log(isLoading)
@@ -40,11 +35,11 @@ const RequireAuth = () => {
     if (address) {
       try {
         const aptosConfig = new AptosConfig({
-          network: Network.TESTNET,
-          fullnode: 'https://aptos.testnet.suzuka.movementlabs.xyz/v1',
-          faucet: 'https://faucet.testnet.suzuka.movementlabs.xyz/',
-          });        
-          const aptos = new Aptos(aptosConfig);
+          network: Network.DEVNET,
+          fullnode: "https://aptos.testnet.suzuka.movementlabs.xyz/v1",
+          faucet: "https://faucet.testnet.suzuka.movementlabs.xyz/",
+        });
+        const aptos = new Aptos(aptosConfig);
         const payload: InputViewFunctionData = {
           function: `${MODULE_ADDRESS}::gamev3::get_player_info`,
           functionArguments: [address],
@@ -72,7 +67,6 @@ const RequireAuth = () => {
     <Outlet />
   ) : (
     <Navigate to="auth/login" state={{ from: location }} replace />
-
   );
 };
 

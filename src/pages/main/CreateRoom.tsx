@@ -48,10 +48,10 @@ const CreateRoom: React.FC = () => {
     console.log("loadGame state updated:", loadGame);
   }, [loadGame]);
   const getCurrentRoom = async () => {
-    const aptosConfig = new AptosConfig({ 
-      network: Network.TESTNET,
-      fullnode: 'https://faucet.testnet.suzuka.movementlabs.xyz/v1',
-      faucet: 'https://faucet.testnet.suzuka.movementlabs.xyz/',
+    const aptosConfig = new AptosConfig({
+      network: Network.DEVNET,
+      fullnode: "https://faucet.testnet.suzuka.movementlabs.xyz/v1",
+      faucet: "https://faucet.testnet.suzuka.movementlabs.xyz/",
     });
     const aptos = new Aptos(aptosConfig);
     const payload: InputViewFunctionData = {
@@ -85,63 +85,6 @@ const CreateRoom: React.FC = () => {
   };
   const handleCloseAlert = () => {
     setOpenAlert(false);
-  };
-  const createRoomContract = async (ROOM_NAME: string, bet_amount: string) => {
-    const aptosConfig = new AptosConfig({ 
-      network: Network.TESTNET,
-      fullnode: 'https://faucet.testnet.suzuka.movementlabs.xyz/v1',
-      faucet: 'https://faucet.testnet.suzuka.movementlabs.xyz/',
-    });
-    const aptos = new Aptos(aptosConfig);
-    const FUNCTION_NAME = `${MODULE_ADDRESS}::gamev3::create_room`;
-    try {
-      setIsLoading(true);
-      const transaction = await aptos.transaction.build.simple({
-        sender: address ?? "",
-
-        data: {
-          function: FUNCTION_NAME,
-          functionArguments: [ROOM_NAME, bet_amount],
-        },
-      });
-      const committedTransaction = await flow.executeTransaction({
-        aptos,
-        transaction,
-        network: AptimusNetwork.M1,
-      });
-      // @ts-ignore
-      const createRoomObj: CreateRoomType = committedTransaction.events[1].data;
-      setIsLoading(false);
-
-      console.log(createRoomObj);
-      setRoomObj(createRoomObj);
-      setOpenWaitRoom(true);
-      setIsCreator(true);
-      setLoadGame(true);
-    } catch (error) {
-      setIsLoading(false);
-      // @ts-ignore
-      console.error("Mã Lỗi:", error.status);
-      // @ts-ignore
-      if (error.status === 429) {
-        setContentAlert("Exceed request limit, please wait 5 minutes");
-        setOpenAlert(true);
-      }
-      // @ts-ignore
-
-      if (error.status === 400) {
-        flow.logout();
-        window.location.reload();
-
-        // setContentAlert("Token expired")
-        // setOpenAlert(true)
-      }
-      // @ts-ignore
-
-      setContentAlert(error.toString());
-      setOpenAlert(true);
-      console.error("Lỗi khi gọi hàm smart contract:", error);
-    }
   };
 
   const openGame = () => {
